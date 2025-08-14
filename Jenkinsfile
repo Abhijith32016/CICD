@@ -14,7 +14,11 @@ pipeline {
 
         stage('Set Up Python Virtual Environment') {
             steps {
-                bat '"C:\Users\ramay\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.13" -m venv venv'
+                // Use the 'python' command from the system's PATH to create the virtual environment.
+                bat 'python -m venv venv'
+                
+                // Now, use the Python executable located inside the newly created virtual environment
+                // to install and upgrade packages.
                 bat '.\\venv\\Scripts\\python.exe -m pip install --upgrade pip'
                 bat '.\\venv\\Scripts\\pip install -r requirements.txt'
             }
@@ -22,7 +26,8 @@ pipeline {
 
         stage('Run Flask App') {
             steps {
-                bat '.\\venv\\Scripts\\python app.py'
+                // Finally, run the Flask application using the Python executable from the venv.
+                bat '.\\venv\\Scripts\\python.exe app.py'
             }
         }
     }
